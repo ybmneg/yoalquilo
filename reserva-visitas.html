@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YOALQUILO · Reserva de visitas 100% automática — Demo eMarqDigital</title>
+<meta name="description" content="Demostración de automatización de reserva de visitas para YOALQUILO. El interesado elige propiedad, día y hora y el sistema hace el resto.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --verde:#65b430;
+  --verde-osc:#3e7d1a;
+  --verde-noche:#1e3311;
+  --lima:#a5e06b;
+  --crema:#f7faf2;
+  --ink:#222b1a;
+  --ink-suave:#5d6b52;
+  --blanco:#fff;
+  --wa:#25d366;
+  --wa-claro:#e7f9df;
+  --error:#e0483a;
+  --radio:20px;
+  --sombra:0 1px 2px rgba(34,43,26,.04),0 10px 26px rgba(34,43,26,.10),0 26px 50px rgba(34,43,26,.06);
+  --sombra-suave:0 1px 2px rgba(34,43,26,.04),0 6px 18px rgba(34,43,26,.07);
+  --glass:rgba(255,255,255,.62);
+  --glass-borde:rgba(255,255,255,.7);
+  --lustre:inset 0 1px 0 rgba(255,255,255,.65);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Poppins',system-ui,sans-serif;color:var(--ink);line-height:1.6;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  background:
+    radial-gradient(closest-side at 14% 8%,rgba(101,180,48,.09),transparent),
+    radial-gradient(closest-side at 92% 22%,rgba(165,224,107,.10),transparent),
+    radial-gradient(closest-side at 78% 92%,rgba(101,180,48,.07),transparent),
+    var(--crema);
+  background-attachment:fixed;
+}
+img{max-width:100%;display:block}
+.wrap{max-width:660px;margin:0 auto;padding:0 20px}
+:focus-visible{outline:2px solid var(--verde);outline-offset:3px;border-radius:6px}
+
+/* ===== Barra de progreso de scroll ===== */
+#progreso{position:fixed;top:0;left:0;height:3px;width:0;z-index:200;
+  background:linear-gradient(90deg,var(--verde),var(--lima));box-shadow:0 0 10px rgba(101,180,48,.5)}
+
+/* ===== Aparición al hacer scroll ===== */
+.rvl{opacity:0;transform:translateY(18px);filter:blur(6px);
+  transition:opacity .7s ease,transform .7s cubic-bezier(.22,.9,.35,1),filter .7s ease}
+.rvl.visible{opacity:1;transform:none;filter:none}
+
+/* ===== Cabecera ===== */
+header{
+  position:relative;overflow:hidden;color:#fff;
+  background:linear-gradient(150deg,#579f27 0%,var(--verde) 46%,#79ca40 100%);
+  padding:34px 0 76px;
+}
+header::before,header::after{content:"";position:absolute;border-radius:50%;pointer-events:none}
+header::before{width:320px;height:320px;background:rgba(255,255,255,.12);top:-150px;right:-70px;filter:blur(4px)}
+header::after{width:210px;height:210px;background:rgba(30,51,17,.18);bottom:-120px;left:-60px;filter:blur(6px)}
+.orbe{position:absolute;border-radius:50%;filter:blur(34px);opacity:.55;pointer-events:none}
+.orbe.o1{width:180px;height:180px;background:rgba(165,224,107,.7);top:10px;left:12%;animation:flota 11s ease-in-out infinite alternate}
+.orbe.o2{width:130px;height:130px;background:rgba(255,255,255,.5);bottom:6px;right:18%;animation:flota 13s ease-in-out infinite alternate-reverse}
+@keyframes flota{from{transform:translateY(-14px)}to{transform:translateY(16px)}}
+.head-top{display:flex;align-items:center;justify-content:space-between;gap:14px;position:relative;z-index:2}
+.logo{display:flex;align-items:center;gap:10px;font-size:1.4rem;font-weight:800;letter-spacing:.01em;text-decoration:none;color:#fff}
+.logo img{height:34px;width:auto;filter:drop-shadow(0 3px 8px rgba(0,0,0,.18))}
+.logo .txt .yo{color:#fff}
+.logo .txt .alquilo{color:#eafbd8}
+.badge{
+  display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.18);
+  border:1px solid rgba(255,255,255,.35);color:#fff;font-size:.68rem;font-weight:700;
+  letter-spacing:.09em;text-transform:uppercase;padding:6px 13px;border-radius:999px;
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+}
+.head-cuerpo{position:relative;z-index:2;margin-top:26px;display:flex;align-items:flex-end;gap:16px}
+.head-txt{flex:1}
+header h1{font-size:clamp(1.55rem,5vw,2.15rem);font-weight:900;line-height:1.15;margin-bottom:10px}
+header h1 .light{color:#eafbd8;background:linear-gradient(115deg,#fff 10%,#dff5c6 90%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+header p{color:rgba(255,255,255,.92);font-size:1rem;max-width:520px}
+.alqui{width:88px;height:auto;flex:0 0 auto;filter:drop-shadow(0 8px 16px rgba(0,0,0,.2));animation:salta 3.4s ease-in-out infinite}
+@keyframes salta{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+@media(max-width:520px){.alqui{width:64px}}
+
+/* ===== Tarjetas ===== */
+main{position:relative;z-index:3}
+.card{
+  background:var(--glass);
+  -webkit-backdrop-filter:blur(16px) saturate(1.35);backdrop-filter:blur(16px) saturate(1.35);
+  border:1px solid var(--glass-borde);border-radius:var(--radio);
+  box-shadow:var(--sombra),var(--lustre);
+  padding:28px 24px;position:relative;overflow:hidden;
+}
+.card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg,var(--verde),var(--lima))}
+.card::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;
+  transition:opacity .3s ease;
+  background:radial-gradient(300px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.35),transparent 60%)}
+.card:hover::after{opacity:1}
+.card.primera{margin-top:-46px}
+.card + .card{margin-top:22px}
+
+/* ===== Formulario ===== */
+.form-titulo{font-size:1.35rem;font-weight:800;margin-bottom:4px}
+.form-titulo em{font-style:normal;color:var(--verde);background:linear-gradient(115deg,var(--verde) 8%,#8fd44f 92%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.form-nota{color:var(--ink-suave);font-size:.92rem;margin-bottom:22px}
+.campo{margin-bottom:17px}
+.campo label{display:block;font-weight:700;font-size:.85rem;margin-bottom:7px}
+.campo label .req{color:var(--verde)}
+.campo input,.campo select{
+  width:100%;padding:14px 15px;border:1.6px solid rgba(34,43,26,.14);border-radius:13px;
+  font-family:inherit;font-size:1rem;color:var(--ink);background:rgba(255,255,255,.85);
+  transition:border-color .18s ease,box-shadow .18s ease,background .18s ease;
+}
+.campo input::placeholder{color:#a7b09c}
+.campo input:focus,.campo select:focus{
+  outline:none;border-color:var(--verde);background:#fff;
+  box-shadow:0 0 0 4px rgba(101,180,48,.16);
+}
+.campo input.campo-error,.campo select.campo-error{
+  border-color:var(--error);box-shadow:0 0 0 4px rgba(224,72,58,.14);
+}
+.campo .msg-error{display:none;color:var(--error);font-size:.8rem;font-weight:600;margin-top:6px}
+.campo.campo-error .msg-error{display:block}
+.fila-2{display:grid;gap:16px}
+@media(min-width:520px){.fila-2{grid-template-columns:1fr 1fr}}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;width:100%;
+  padding:16px 24px;border:none;border-radius:999px;font-family:inherit;font-weight:800;
+  font-size:1.05rem;cursor:pointer;position:relative;overflow:hidden;
+  transition:transform .18s cubic-bezier(.22,.9,.35,1),box-shadow .2s ease,background .2s ease;
+}
+.btn:disabled{opacity:.6;cursor:not-allowed}
+.btn-verde{background:linear-gradient(135deg,#74c43c,var(--verde-osc));color:#fff;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.32),0 8px 20px rgba(101,180,48,.32)}
+.btn-verde::before{content:"";position:absolute;top:0;left:-60%;width:45%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);transform:skewX(-20deg)}
+.btn-verde:not(:disabled):hover{transform:translateY(-3px) scale(1.01);box-shadow:inset 0 1px 0 rgba(255,255,255,.32),0 12px 28px rgba(101,180,48,.42)}
+.btn-verde:not(:disabled):hover::before{animation:brillo 1s ease}
+@keyframes brillo{to{left:130%}}
+.btn-verde:active{transform:translateY(0)}
+.btn-borde{background:rgba(255,255,255,.7);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+  color:var(--verde-osc);border:1.6px solid var(--verde);box-shadow:none}
+.btn-borde:hover{background:#fff;transform:translateY(-2px);box-shadow:var(--sombra-suave)}
+
+/* ===== Pipeline ===== */
+#pipeline{display:none}
+#pipeline.mostrar{display:block;animation:aparece .45s ease}
+@keyframes aparece{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.pipe-cab{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.pipe-cab h2{font-size:1.25rem;font-weight:800}
+.pipe-nota{color:var(--ink-suave);font-size:.92rem;margin-bottom:24px}
+.pasos{position:relative}
+.paso{
+  display:flex;gap:15px;padding-bottom:24px;position:relative;
+  opacity:.25;transform:translateY(6px);
+  transition:opacity .5s ease,transform .5s ease;
+}
+.paso.activo{opacity:1;transform:none}
+.paso:last-child{padding-bottom:0}
+.paso:not(:last-child)::before{
+  content:"";position:absolute;left:17px;top:38px;bottom:-2px;width:2px;background:rgba(34,43,26,.12);
+}
+.paso.activo:not(:last-child)::before{background:linear-gradient(var(--verde),var(--lima))}
+.paso-check{
+  flex:0 0 36px;width:36px;height:36px;border-radius:50%;background:#fff;
+  border:2px solid rgba(34,43,26,.16);display:flex;align-items:center;justify-content:center;
+  position:relative;z-index:1;transition:background .35s ease,border-color .35s ease,box-shadow .35s ease;
+}
+.paso-check svg{width:19px;height:19px;fill:none;stroke:#fff;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
+.paso-check svg path{stroke-dasharray:24;stroke-dashoffset:24;transition:stroke-dashoffset .55s ease .15s}
+.paso.activo .paso-check{background:linear-gradient(135deg,#74c43c,var(--verde-osc));border-color:var(--verde-osc);box-shadow:0 6px 16px rgba(101,180,48,.35)}
+.paso.activo .paso-check svg path{stroke-dashoffset:0}
+.paso-cuerpo{flex:1;padding-top:4px;min-width:0}
+.paso-cuerpo h3{font-size:1.02rem;font-weight:800;line-height:1.35}
+.paso-cuerpo p{color:var(--ink-suave);font-size:.9rem;margin-top:5px}
+
+/* Detalle: burbuja WhatsApp */
+.wa-sim{
+  background:var(--wa-claro);border-radius:14px 14px 14px 5px;padding:13px 15px;
+  margin-top:13px;font-size:.9rem;line-height:1.5;box-shadow:var(--sombra-suave);
+  position:relative;border:1px solid rgba(37,211,102,.28);
+}
+.wa-sim .wa-cab{display:flex;align-items:center;gap:8px;margin-bottom:9px;font-weight:800;color:#0b6e3b;font-size:.8rem}
+.wa-sim .wa-cab .punto{width:9px;height:9px;border-radius:50%;background:var(--wa);box-shadow:0 0 0 3px rgba(37,211,102,.2)}
+.wa-sim .entregado{display:block;text-align:right;font-size:.72rem;color:#5a9a70;font-weight:700;margin-top:7px}
+.wa-sim .entregado .tick{color:#34b7f1}
+
+/* Detalle: evento de calendario */
+.cal-sim{
+  margin-top:13px;background:rgba(255,255,255,.85);border:1px solid rgba(34,43,26,.08);
+  border-left:5px solid var(--verde);border-radius:12px;padding:14px 16px;box-shadow:var(--sombra-suave);
+}
+.cal-sim .cal-titulo{font-weight:800;font-size:.96rem;margin-bottom:9px}
+.cal-sim .cal-fila{display:flex;gap:9px;align-items:center;font-size:.87rem;color:var(--ink-suave);margin-top:6px}
+.cal-sim .cal-fila b{color:var(--ink);font-weight:700}
+
+.pipe-reset{margin-top:28px;display:none}
+.pipe-reset.mostrar{display:block;animation:aparece .4s ease}
+
+/* ===== Pie ===== */
+footer{margin-top:40px;position:relative;overflow:hidden;
+  background:linear-gradient(150deg,var(--verde-noche),#2f5216);color:#fff;
+  padding:44px 0 48px;text-align:center}
+footer .aclara{
+  background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.16);
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  border-radius:var(--radio);box-shadow:inset 0 1px 0 rgba(255,255,255,.14);
+  padding:22px;font-size:.92rem;color:rgba(255,255,255,.9);max-width:580px;margin:0 auto 22px;line-height:1.6}
+footer .aclara b{color:#eafbd8}
+footer .firma{font-weight:800;font-size:1rem;letter-spacing:.02em}
+footer .lema{color:rgba(255,255,255,.7);font-size:.88rem;font-style:italic;margin-top:5px}
+</style>
+</head>
+<body>
+
+<div id="progreso"></div>
+
+<!-- ============ CABECERA ============ -->
+<header>
+  <span class="orbe o1"></span><span class="orbe o2"></span>
+  <div class="wrap">
+    <div class="head-top">
+      <a class="logo" href="index.html" aria-label="Volver a la web de YOALQUILO">
+        <img src="assets/logo.png" alt="YOALQUILO" onerror="this.style.display='none'">
+        <span class="txt"><span class="yo">YO</span><span class="alquilo">ALQUILO</span></span>
+      </a>
+      <span class="badge">● Demo · eMarqDigital</span>
+    </div>
+    <div class="head-cuerpo">
+      <div class="head-txt">
+        <h1>Reserva de visitas <span class="light">100% automática</span></h1>
+        <p>El interesado elige propiedad, día y hora… y el sistema hace el resto. Sin llamadas, sin cuadrar horarios a mano, sin visitas perdidas.</p>
+      </div>
+      <img class="alqui" src="assets/misc-1.png" alt="Alqui, la mascota de YOALQUILO" onerror="this.style.display='none'">
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ============ FORMULARIO ============ -->
+  <section class="card primera rvl" aria-labelledby="tituloForm">
+    <h2 class="form-titulo" id="tituloForm">Reserva tu <em>visita</em></h2>
+    <p class="form-nota">Así lo vería un interesado en la web de YOALQUILO.</p>
+
+    <form id="formReserva" novalidate>
+      <div class="campo" id="c-prop">
+        <label for="prop">Propiedad <span class="req">*</span></label>
+        <select id="prop" required>
+          <option value="" disabled selected>Elige una propiedad…</option>
+          <option value="EXP. 1215 — Dúplex en Nuevo Horizonte (2 dorm, garaje)">EXP. 1215 — Dúplex en Nuevo Horizonte (2 dorm, garaje)</option>
+          <option value="EXP. 1117 — Local en C/ León y Castillo">EXP. 1117 — Local en C/ León y Castillo</option>
+          <option value="EXP. 1204 — Almacén 80m² centro Puerto del Rosario">EXP. 1204 — Almacén 80m² centro Puerto del Rosario</option>
+          <option value="EXP. CV380 — Casa terrera en Gran Tarajal (143m²)">EXP. CV380 — Casa terrera en Gran Tarajal (143m²)</option>
+        </select>
+        <span class="msg-error">Elige una propiedad.</span>
+      </div>
+
+      <div class="campo" id="c-nombre">
+        <label for="nombre">Nombre <span class="req">*</span></label>
+        <input type="text" id="nombre" placeholder="María García" autocomplete="name" required>
+        <span class="msg-error">Dinos tu nombre.</span>
+      </div>
+
+      <div class="fila-2">
+        <div class="campo" id="c-tel">
+          <label for="tel">Teléfono (WhatsApp) <span class="req">*</span></label>
+          <input type="tel" id="tel" placeholder="6XX XXX XXX" autocomplete="tel" inputmode="tel" required>
+          <span class="msg-error">Falta el teléfono.</span>
+        </div>
+        <div class="campo" id="c-email">
+          <label for="email">Email <span class="req">*</span></label>
+          <input type="email" id="email" placeholder="maria@email.com" autocomplete="email" required>
+          <span class="msg-error">Revisa el email.</span>
+        </div>
+      </div>
+
+      <div class="fila-2">
+        <div class="campo" id="c-fecha">
+          <label for="fecha">Día de la visita <span class="req">*</span></label>
+          <input type="date" id="fecha" required>
+          <span class="msg-error">Elige un día.</span>
+        </div>
+        <div class="campo" id="c-hora">
+          <label for="hora">Hora <span class="req">*</span></label>
+          <select id="hora" required>
+            <option value="" disabled selected>Elige hora…</option>
+            <option>09:30</option><option>10:00</option><option>10:30</option>
+            <option>11:00</option><option>11:30</option><option>12:00</option>
+            <option>12:30</option><option>13:00</option><option>13:30</option>
+          </select>
+          <span class="msg-error">Elige una hora.</span>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-verde" id="btnReservar">📅 Reservar visita</button>
+    </form>
+  </section>
+
+  <!-- ============ PIPELINE ANIMADO ============ -->
+  <section class="card" id="pipeline" aria-live="polite">
+    <div class="pipe-cab">
+      <h2>✅ ¡Reserva recibida! Esto ocurre solo</h2>
+    </div>
+    <p class="pipe-nota">En la versión real, cada paso se dispara automáticamente en segundos.</p>
+
+    <div class="pasos">
+      <!-- Paso 1 -->
+      <div class="paso" id="paso1">
+        <span class="paso-check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>
+        <div class="paso-cuerpo">
+          <h3>💬 Confirmación instantánea por WhatsApp</h3>
+          <div class="wa-sim">
+            <div class="wa-cab"><span class="punto"></span> YOALQUILO · WhatsApp Business</div>
+            <div id="waMensaje"></div>
+            <span class="entregado">Entregado <span class="tick">✓✓</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Paso 2 -->
+      <div class="paso" id="paso2">
+        <span class="paso-check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>
+        <div class="paso-cuerpo">
+          <h3>📅 Cita creada en vuestro calendario</h3>
+          <div class="cal-sim">
+            <div class="cal-titulo" id="calTitulo">Visita</div>
+            <div class="cal-fila">🗓️ <b id="calFecha"></b></div>
+            <div class="cal-fila">⏰ <b id="calHora"></b></div>
+            <div class="cal-fila">👤 <b id="calNombre"></b></div>
+            <div class="cal-fila">📞 <b id="calTel"></b></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Paso 3 -->
+      <div class="paso" id="paso3">
+        <span class="paso-check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>
+        <div class="paso-cuerpo">
+          <h3>⏰ Recordatorio automático 24h antes</h3>
+          <p>El sistema envía un recordatorio al cliente el día anterior. Resultado: muchas menos visitas perdidas por olvidos.</p>
+        </div>
+      </div>
+
+      <!-- Paso 4 -->
+      <div class="paso" id="paso4">
+        <span class="paso-check"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></span>
+        <div class="paso-cuerpo">
+          <h3>🔔 Aviso al equipo</h3>
+          <p>Yoana y el equipo reciben la notificación con la nueva visita ya agendada. Cero llamadas para cuadrar horarios.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="pipe-reset" id="pipeReset">
+      <button type="button" class="btn btn-borde" id="btnReset">↺ Probar otra vez</button>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ PIE ============ -->
+<footer>
+  <div class="wrap">
+    <div class="aclara">
+      Esto es una <b>demostración funcional</b>. En la versión real, cada paso queda conectado a vuestro
+      <b>WhatsApp Business</b>, vuestro <b>calendario</b> y vuestro <b>equipo</b>, funcionando <b>24/7</b>
+      sin que tengáis que tocar nada.
+    </div>
+    <div class="firma">eMarqDigital</div>
+    <div class="lema">Lo que seáis capaces de imaginar, somos capaces de ejecutarlo.</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+
+  const form = document.getElementById('formReserva');
+  const pipeline = document.getElementById('pipeline');
+  const pipeReset = document.getElementById('pipeReset');
+  const btnReset = document.getElementById('btnReset');
+  const btnReservar = document.getElementById('btnReservar');
+
+  // Campos obligatorios: id del <input>/<select> => id del contenedor .campo
+  const requeridos = [
+    ['prop','c-prop'],['nombre','c-nombre'],['tel','c-tel'],
+    ['email','c-email'],['fecha','c-fecha'],['hora','c-hora']
+  ];
+
+  /* ---- Barra de progreso de scroll ---- */
+  const progreso = document.getElementById('progreso');
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const max = h.scrollHeight - h.clientHeight;
+    progreso.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
+  }, {passive:true});
+
+  /* ---- Aparición al hacer scroll ---- */
+  const io = new IntersectionObserver((entradas) => {
+    entradas.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, {threshold:.15});
+  document.querySelectorAll('.rvl').forEach(el => io.observe(el));
+
+  /* ---- Luz que sigue al cursor en las tarjetas ---- */
+  document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('pointermove', e => {
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+      card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    });
+  });
+
+  /* ---- Día mínimo = mañana ---- */
+  const manana = new Date();
+  manana.setDate(manana.getDate() + 1);
+  document.getElementById('fecha').min = manana.toISOString().split('T')[0];
+
+  /* ---- Quitar el error al corregir el campo ---- */
+  requeridos.forEach(([campoId, contId]) => {
+    const el = document.getElementById(campoId);
+    el.addEventListener('input', () => limpiarError(contId, el));
+    el.addEventListener('change', () => limpiarError(contId, el));
+  });
+  function limpiarError(contId, el){
+    document.getElementById(contId).classList.remove('campo-error');
+    el.classList.remove('campo-error');
+  }
+
+  /* ---- Formato de fecha largo en español ---- */
+  function fechaLarga(iso){
+    const d = new Date(iso + 'T00:00:00');
+    const s = d.toLocaleDateString('es-ES', { weekday:'long', day:'numeric', month:'long' });
+    return s.charAt(0).toUpperCase() + s.slice(1); // "Viernes, 11 de julio"
+  }
+
+  /* ---- Validación (sin alert): borde rojo en lo que falte ---- */
+  function validar(){
+    let ok = true, primerFallo = null;
+    requeridos.forEach(([campoId, contId]) => {
+      const el = document.getElementById(campoId);
+      let malo = !el.value.trim();
+      if(campoId === 'email' && el.value.trim()){
+        malo = !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value.trim());
+      }
+      if(malo){
+        document.getElementById(contId).classList.add('campo-error');
+        el.classList.add('campo-error');
+        ok = false;
+        if(!primerFallo) primerFallo = el;
+      }
+    });
+    if(primerFallo) primerFallo.focus();
+    return ok;
+  }
+
+  /* ---- Envío ---- */
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if(!validar()) return;
+
+    const nombre = document.getElementById('nombre').value.trim();
+    const tel    = document.getElementById('tel').value.trim();
+    const email  = document.getElementById('email').value.trim();
+    const prop   = document.getElementById('prop').value;
+    const fecha  = document.getElementById('fecha').value;   // ISO (YYYY-MM-DD)
+    const hora   = document.getElementById('hora').value;
+    const fechaTxt = fechaLarga(fecha);
+
+    /* === GANCHO WEBHOOK REAL (Make) — descomentar en producción ===
+    // fetch('URL_WEBHOOK_MAKE', { method:'POST',
+    //   headers:{'Content-Type':'application/json'},
+    //   body: JSON.stringify({ nombre, tel, email, prop, fecha, hora }) });
+    ================================================================= */
+
+    // --- Rellenar contenido personalizado del pipeline ---
+    document.getElementById('waMensaje').innerHTML =
+      '¡Hola <b>' + escapar(nombre) + '</b>! 👋<br>' +
+      'Tu visita está confirmada:<br>' +
+      '🏠 ' + escapar(prop) + '<br>' +
+      '📅 ' + escapar(fechaTxt) + ' a las ' + escapar(hora) + '<br>' +
+      '📍 Te esperamos en la propiedad.<br>' +
+      'Si necesitas cambiar la cita, responde a este mensaje.<br>' +
+      '— Equipo YOALQUILO';
+
+    document.getElementById('calTitulo').textContent = 'Visita ' + prop;
+    document.getElementById('calFecha').textContent  = fechaTxt;
+    document.getElementById('calHora').textContent   = hora + ' h';
+    document.getElementById('calNombre').textContent = nombre;
+    document.getElementById('calTel').textContent    = tel;
+
+    lanzarPipeline();
+  });
+
+  /* ---- Anima el pipeline paso a paso ---- */
+  const timers = [];
+  function lanzarPipeline(){
+    timers.forEach(clearTimeout); timers.length = 0;
+
+    btnReservar.disabled = true;
+    pipeline.classList.add('mostrar');
+    pipeReset.classList.remove('mostrar');
+
+    const pasos = document.querySelectorAll('#pipeline .paso');
+    pasos.forEach(p => p.classList.remove('activo'));
+
+    pipeline.scrollIntoView({ behavior:'smooth', block:'start' });
+
+    pasos.forEach((paso, i) => {
+      timers.push(setTimeout(() => {
+        paso.classList.add('activo');
+        if(i === pasos.length - 1){
+          timers.push(setTimeout(() => pipeReset.classList.add('mostrar'), 500));
+        }
+      }, 400 + i * 900)); // ~900ms entre pasos
+    });
+  }
+
+  /* ---- Reset total ---- */
+  btnReset.addEventListener('click', function(){
+    timers.forEach(clearTimeout); timers.length = 0;
+    document.querySelectorAll('#pipeline .paso').forEach(p => p.classList.remove('activo'));
+    pipeline.classList.remove('mostrar');
+    pipeReset.classList.remove('mostrar');
+    form.reset();
+    requeridos.forEach(([campoId, contId]) => limpiarError(contId, document.getElementById(campoId)));
+    btnReservar.disabled = false;
+    document.getElementById('fecha').min = manana.toISOString().split('T')[0];
+    document.getElementById('tituloForm').scrollIntoView({ behavior:'smooth', block:'start' });
+  });
+
+  /* ---- Escapar texto para innerHTML ---- */
+  function escapar(t){
+    const d = document.createElement('div');
+    d.textContent = t;
+    return d.innerHTML;
+  }
+})();
+</script>
+</body>
+</html>
