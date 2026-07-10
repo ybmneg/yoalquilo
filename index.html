@@ -134,8 +134,8 @@ header.pegado{box-shadow:var(--sombra-suave);background:rgba(247,250,242,.82)}
 /* ===== Hero ===== */
 .hero{padding:70px 0 80px;overflow:hidden}
 .video-fondo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
-.hero .velo{position:absolute;inset:0;z-index:0;background:linear-gradient(90deg,rgba(247,250,242,.86) 0%,rgba(247,250,242,.64) 45%,rgba(247,250,242,.34) 100%)}
-@media(max-width:919px){.hero .velo{background:rgba(247,250,242,.72)}}
+.hero .velo{position:absolute;inset:0;z-index:0;background:linear-gradient(90deg,rgba(247,250,242,.66) 0%,rgba(247,250,242,.46) 45%,rgba(247,250,242,.16) 100%)}
+@media(max-width:919px){.hero .velo{background:rgba(247,250,242,.52)}}
 .hero::after{content:"";position:absolute;border-radius:50%;filter:blur(60px);z-index:0;width:340px;height:340px;background:rgba(165,224,107,.25);bottom:-140px;left:-120px;animation:flotar 9s ease-in-out infinite alternate}
 @keyframes flotar{from{transform:translateY(0) scale(1)}to{transform:translateY(30px) scale(1.08)}}
 .hero-grid{display:grid;gap:44px;align-items:center;position:relative;z-index:1}
@@ -273,8 +273,8 @@ header.pegado{box-shadow:var(--sombra-suave);background:rgba(247,250,242,.82)}
 .rwave:nth-child(2){animation-delay:1.5s}
 .rwave:nth-child(3){animation-delay:3s}
 @keyframes rwave-exp{0%{width:36px;height:36px;opacity:.55}100%{width:680px;height:680px;opacity:0}}
-.velo-radio{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(255,255,255,.9) 0%,rgba(255,255,255,.72) 50%,rgba(255,255,255,.5) 100%)}
-@media(max-width:879px){.velo-radio{background:rgba(255,255,255,.82)}}
+.velo-radio{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(255,255,255,.68) 0%,rgba(255,255,255,.5) 50%,rgba(255,255,255,.28) 100%)}
+@media(max-width:879px){.velo-radio{background:rgba(255,255,255,.62)}}
 #radio .wrap{position:relative;z-index:2}
 .radio-grid{display:grid;gap:34px;align-items:center}
 @media(min-width:880px){.radio-grid{grid-template-columns:1fr 1fr}}
@@ -427,8 +427,8 @@ header.pegado{box-shadow:var(--sombra-suave);background:rgba(247,250,242,.82)}
 
 /* ===== Footer ===== */
 footer{background:var(--verde-noche);color:rgba(255,255,255,.78);padding:44px 0 30px;margin-top:64px;font-size:.9rem;position:relative;overflow:hidden}
-footer .video-fondo{opacity:.85}
-footer .velo-footer{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(30,51,17,.62),rgba(30,51,17,.78))}
+footer .video-fondo{opacity:1}
+footer .velo-footer{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(30,51,17,.4),rgba(30,51,17,.58))}
 footer .footer-fin,footer h4{text-shadow:0 1px 6px rgba(0,0,0,.45)}
 footer p{margin:10px 0 16px;font-size:.92rem}
 .footer-redes{margin:0}
