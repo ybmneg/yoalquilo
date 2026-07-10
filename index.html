@@ -368,9 +368,7 @@ header.pegado{box-shadow:var(--sombra-suave);background:rgba(247,250,242,.82)}
 .globo-wrap{--pinx:45%;--piny:47%;position:relative;z-index:2;width:min(290px,74%);aspect-ratio:1;
   animation:flota-globo 6.5s ease-in-out infinite;will-change:transform}
 @keyframes flota-globo{0%,100%{transform:translateY(-3%)}50%{transform:translateY(3%)}}
-/* Halo de atmósfera y sombra en el "suelo" para dar profundidad */
-.globo-wrap::before{content:"";position:absolute;inset:-8%;border-radius:50%;z-index:0;filter:blur(16px);
-  background:radial-gradient(circle,rgba(120,205,255,.30) 47%,rgba(120,205,255,.12) 58%,transparent 67%)}
+/* Sombra en el "suelo" para dar profundidad, sin halo que rodee la esfera */
 .globo-wrap::after{content:"";position:absolute;left:50%;bottom:-9%;width:60%;height:6%;transform:translateX(-50%);
   border-radius:50%;background:rgba(40,60,90,.22);filter:blur(9px);z-index:0}
 .globo-img{position:relative;z-index:1;width:100%;height:100%;object-fit:contain;
