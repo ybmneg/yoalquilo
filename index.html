@@ -184,6 +184,16 @@ header.pegado{box-shadow:var(--sombra-suave);background:rgba(247,250,242,.82)}
 .tab{padding:10px 20px;border-radius:999px;border:2px solid rgba(34,43,26,.14);background:#fff;font-family:inherit;font-weight:700;font-size:.88rem;color:var(--ink-suave);cursor:pointer;transition:all .18s ease}
 .tab:hover{border-color:var(--verde);transform:translateY(-2px)}
 .tab.activa{background:var(--verde);border-color:var(--verde);color:#fff}
+.filtros-extra{display:flex;flex-wrap:wrap;gap:22px 40px;margin:-8px 0 28px;padding:18px 20px;background:var(--glass);backdrop-filter:blur(12px) saturate(1.3);-webkit-backdrop-filter:blur(12px) saturate(1.3);border:1px solid var(--glass-borde);border-radius:16px;box-shadow:var(--sombra-suave),var(--lustre)}
+.filtro-grupo{display:flex;flex-direction:column;gap:9px}
+.filtro-etq{font-weight:700;font-size:.78rem;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-suave)}
+.filtro-chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:999px;border:1.5px solid rgba(34,43,26,.14);background:#fff;font-family:inherit;font-weight:600;font-size:.82rem;color:var(--ink-suave);cursor:pointer;transition:all .18s ease}
+.chip b{font-weight:700;opacity:.7}
+.chip:hover:not(:disabled){border-color:var(--verde);color:var(--verde-osc)}
+.chip.activa{background:var(--verde);border-color:var(--verde);color:#fff}
+.chip.activa b{color:rgba(255,255,255,.85)}
+.chip:disabled{opacity:.4;cursor:not-allowed}
 .fichas{display:grid;gap:24px}
 .ficha.ficha-extra{display:none}
 .ficha.revelada{animation:sube-ficha .6s cubic-bezier(.22,.9,.35,1) both}
@@ -299,12 +309,16 @@ header.pegado{box-shadow:var(--sombra-suave);background:rgba(247,250,242,.82)}
 .campo input,.campo select,.campo textarea{width:100%;padding:13px 15px;border-radius:13px;border:1.5px solid rgba(34,43,26,.13);font-family:inherit;font-size:.98rem;color:var(--ink);background:rgba(255,255,255,.7);transition:border-color .18s ease,box-shadow .18s ease}
 .campo textarea{resize:vertical;min-height:100px}
 .campo input:focus,.campo select:focus,.campo textarea:focus{outline:none;border-color:var(--verde);box-shadow:0 0 0 4px rgba(101,180,48,.15)}
+.chip-campo{display:flex;flex-wrap:wrap;gap:8px}
 .datos .dato{display:flex;gap:14px;align-items:center;margin-bottom:12px;padding:13px 16px;border-radius:16px;background:var(--glass);backdrop-filter:blur(12px) saturate(1.2);-webkit-backdrop-filter:blur(12px) saturate(1.2);border:1px solid var(--glass-borde);box-shadow:var(--sombra-suave),var(--lustre);transition:transform .28s cubic-bezier(.22,.9,.35,1),box-shadow .28s ease}
 .datos .dato:hover{transform:translateX(6px);box-shadow:var(--sombra),0 0 0 1px rgba(101,180,48,.22)}
 .datos .ico{flex:0 0 46px;height:46px;border-radius:14px;background:linear-gradient(135deg,rgba(101,180,48,.2),rgba(165,224,107,.32));display:flex;align-items:center;justify-content:center;font-size:1.3rem;box-shadow:inset 0 1px 0 rgba(255,255,255,.55)}
 .datos b{display:block;font-size:.95rem}
 .datos a{font-weight:600;text-decoration:none}
 .datos a:hover{text-decoration:underline}
+.redes-sociales{display:flex;gap:10px;margin:2px 0 14px}
+.redes-sociales a{width:42px;height:42px;border-radius:50%;background:var(--glass);backdrop-filter:blur(10px);border:1px solid var(--glass-borde);display:flex;align-items:center;justify-content:center;font-size:1.15rem;box-shadow:var(--sombra-suave),var(--lustre);transition:transform .2s ease,box-shadow .2s ease}
+.redes-sociales a:hover{transform:translateY(-3px) scale(1.06);box-shadow:var(--sombra)}
 .mapa-zona{position:relative;margin-top:8px;min-height:330px;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .mapa-caja{position:absolute;inset:0;border-radius:var(--radio);overflow:hidden;box-shadow:var(--sombra);opacity:0;visibility:hidden;pointer-events:none}
 .mapa-caja.aterrizando{pointer-events:auto;animation:aparece-mapa 2.1s ease forwards}
@@ -576,10 +590,30 @@ footer a:hover{color:var(--lima)}
     <p class="sub">Todo el mercado inmobiliario de Fuerteventura, organizado para ti. Fotos reales de nuestra cartera actual.</p>
 
     <div class="tabs" id="tabs">
-      <button class="tab activa" data-zona="todas">Todas</button>
-      <button class="tab" data-zona="puerto">Puerto del Rosario</button>
-      <button class="tab" data-zona="antigua">Antigua</button>
-      <button class="tab" data-zona="costa">Costa de Antigua</button>
+      <button class="tab activa" data-zona="todas" data-etq="Todas">Todas</button>
+      <button class="tab" data-zona="puerto" data-etq="Puerto del Rosario">Puerto del Rosario</button>
+      <button class="tab" data-zona="antigua" data-etq="Antigua">Antigua</button>
+      <button class="tab" data-zona="costa" data-etq="Costa de Antigua">Costa de Antigua</button>
+    </div>
+
+    <div class="filtros-extra">
+      <div class="filtro-grupo">
+        <span class="filtro-etq">Interés en</span>
+        <div class="filtro-chips" id="filtroInteres" data-campo="interes">
+          <button class="chip" data-valor="alquiler">Alquiler <b>(0)</b></button>
+          <button class="chip" data-valor="venta">Venta <b>(0)</b></button>
+        </div>
+      </div>
+      <div class="filtro-grupo">
+        <span class="filtro-etq">Tipo de propiedad</span>
+        <div class="filtro-chips" id="filtroTipo" data-campo="tipo">
+          <button class="chip" data-valor="vivienda">Vivienda <b>(0)</b></button>
+          <button class="chip" data-valor="local">Local <b>(0)</b></button>
+          <button class="chip" data-valor="solar">Solar <b>(0)</b></button>
+          <button class="chip" data-valor="garaje">Garaje <b>(0)</b></button>
+          <button class="chip" data-valor="trastero">Trastero <b>(0)</b></button>
+        </div>
+      </div>
     </div>
 
     <div class="fichas" id="fichas"><!-- JS --></div>
@@ -623,7 +657,7 @@ footer a:hover{color:var(--lima)}
       <div class="nota-google rvl">
         <div class="nota" data-decimal="4.5">0.0</div>
         <span class="estrellas">★★★★½</span>
-        <small>Reseñas en Google</small><br>
+        <small>+171 reseñas en Google</small><br>
         <a class="btn btn-borde" style="margin-top:16px;padding:10px 20px;font-size:.85rem" href="https://www.google.com/search?q=yoalquilo+puerto+del+rosario+rese%C3%B1as" target="_blank" rel="noopener">Léelas en Google</a>
       </div>
       <div>
@@ -708,6 +742,24 @@ footer a:hover{color:var(--lima)}
           </select>
         </div>
         <div class="campo">
+          <label>¿Qué tipo de propiedad? <small style="font-weight:400;color:var(--ink-suave)">(opcional)</small></label>
+          <div class="chip-campo" id="cTipoProp">
+            <button type="button" class="chip" data-valor="Vivienda">Vivienda</button>
+            <button type="button" class="chip" data-valor="Local">Local</button>
+            <button type="button" class="chip" data-valor="Solar">Solar</button>
+            <button type="button" class="chip" data-valor="Garaje">Garaje</button>
+            <button type="button" class="chip" data-valor="Trastero">Trastero</button>
+          </div>
+        </div>
+        <div class="campo">
+          <label>¿Cómo prefieres que te contactemos?</label>
+          <div class="chip-campo" id="cCanal">
+            <button type="button" class="chip activa" data-valor="WhatsApp">💬 WhatsApp</button>
+            <button type="button" class="chip" data-valor="Llamada">📞 Llamada</button>
+            <button type="button" class="chip" data-valor="Email">✉️ Email</button>
+          </div>
+        </div>
+        <div class="campo">
           <label for="cMsj">Cuéntanos un poco más</label>
           <textarea id="cMsj" placeholder="Ej.: busco piso de 2 dormitorios en Puerto del Rosario…"></textarea>
         </div>
@@ -719,6 +771,11 @@ footer a:hover{color:var(--lima)}
         <div class="dato rvl d2"><span class="ico">📞</span><div><b>Teléfono</b><a href="tel:+34828130012">828 130 012</a></div></div>
         <div class="dato rvl d3"><span class="ico">💬</span><div><b>WhatsApp</b><a href="https://wa.me/34666531888" target="_blank" rel="noopener">666 531 888</a></div></div>
         <div class="dato rvl d4"><span class="ico">✉️</span><div><b>Email</b><a href="mailto:info@yoalquilo-online.com">info@yoalquilo-online.com</a></div></div>
+        <div class="redes-sociales rvl d4">
+          <a href="https://www.instagram.com/yoalquiloonline?igsh=MTVpaXVwN2t4eG9paA==" target="_blank" rel="noopener" aria-label="Instagram">📷</a>
+          <a href="https://www.facebook.com/share/1EBgm4VNYY/" target="_blank" rel="noopener" aria-label="Facebook">📘</a>
+          <a href="https://wa.me/34666531888" target="_blank" rel="noopener" aria-label="WhatsApp">💬</a>
+        </div>
         <div class="mapa-zona" id="mapaZona">
           <div class="globo-wrap" id="globoWrap" aria-hidden="true">
             <span class="globo-aro"></span>
@@ -828,42 +885,42 @@ const WHATSAPP = '34666531888';
 
 const propiedades = [
   {
-    ref:'CV401', zona:'puerto', lugar:'Calle El Hierro, Puerto del Rosario',
+    ref:'CV401', zona:'puerto', tipo:'solar', interes:'venta', lugar:'Calle El Hierro, Puerto del Rosario',
     titulo:'Terreno urbano en venta', precio:'48.250€', m2:'120 m²',
     rasgos:['Solar urbano','2 plantas edificables','Todos los servicios'],
     fotos:['assets/prop-CV401-1.jpg','assets/prop-CV401-2.jpg','assets/prop-CV401-3.jpg','assets/prop-CV401-4.jpg'],
     url:'https://yoalquilo-online.com/project/terreno-en-venta-en-calle-el-hierro/'
   },
   {
-    ref:'CV399', zona:'costa', lugar:'C/ Roque del Este 37, Costa de Antigua',
+    ref:'CV399', zona:'costa', tipo:'solar', interes:'venta', lugar:'C/ Roque del Este 37, Costa de Antigua',
     titulo:'Solar urbanizable céntrico', precio:'135.000€', m2:'700 m²',
     rasgos:['700 m² edificables','Zona céntrica','Acceso por carretera'],
     fotos:['assets/prop-CV399-1.jpg','assets/prop-CV399-2.jpg','assets/prop-CV399-3.jpg','assets/prop-CV399-4.jpg'],
     url:'https://yoalquilo-online.com/project/terreno-en-venta-en-calle-roque-del-este-37/'
   },
   {
-    ref:'CV390', zona:'puerto', lugar:'Camino Violante, Puerto del Rosario',
+    ref:'CV390', zona:'puerto', tipo:'solar', interes:'venta', lugar:'Camino Violante, Puerto del Rosario',
     titulo:'Finca rústica en venta', precio:'45.000€', m2:'34.000 m²',
     rasgos:['34.000 m²','Acceso por camino','A 2 km del núcleo urbano'],
     fotos:['assets/prop-CV390-1.jpg','assets/prop-CV390-2.jpg','assets/prop-CV390-3.jpg','assets/prop-CV390-4.jpg'],
     url:'https://yoalquilo-online.com/project/terreno-en-venta-en-camino-violante/'
   },
   {
-    ref:'CV388', zona:'antigua', lugar:'Calle Tenerife, Antigua',
+    ref:'CV388', zona:'antigua', tipo:'solar', interes:'venta', lugar:'Calle Tenerife, Antigua',
     titulo:'Terrenos rústicos edificables', precio:'90.000€', m2:'2.650 m²',
     rasgos:['5 solares disponibles','Vivienda unifamiliar','Agua y luz en la zona'],
     fotos:['assets/prop-CV388-1.jpg','assets/prop-CV388-2.jpg','assets/prop-CV388-3.jpg','assets/prop-CV388-4.jpg'],
     url:'https://yoalquilo-online.com/project/terreno-en-venta-en-calle-tenerife/'
   },
   {
-    ref:'CV342', zona:'antigua', lugar:'Urb. Caleta Blanca, Antigua',
+    ref:'CV342', zona:'antigua', tipo:'solar', interes:'venta', lugar:'Urb. Caleta Blanca, Antigua',
     titulo:'Parcela urbana edificable', precio:'35.000€', m2:'549 m²',
     rasgos:['549 m² edificables','Residencial unifamiliar','Ideal chalet'],
     fotos:['assets/prop-CV342-1.jpg','assets/prop-CV342-2.jpg','assets/prop-CV342-3.jpg','assets/prop-CV342-4.jpg'],
     url:'https://yoalquilo-online.com/project/terreno-en-venta-en-urbanizacion-caleta-blanca-bb/'
   },
   {
-    ref:'LLANOS', zona:'antigua', lugar:'Urb. Llanos del Dinero A, Antigua',
+    ref:'LLANOS', zona:'antigua', tipo:'solar', interes:'venta', lugar:'Urb. Llanos del Dinero A, Antigua',
     titulo:'Solar urbanizable en venta', precio:'28.000€', m2:'267 m²',
     rasgos:['Residencial unifamiliar','A 1 km del núcleo urbano'],
     fotos:['assets/prop-LLANOS-1.jpg','assets/prop-LLANOS-2.jpg','assets/prop-LLANOS-3.jpg','assets/prop-LLANOS-4.jpg'],
@@ -891,14 +948,38 @@ function mostrarMas(){
   iniciarCarruseles();
 }
 
-function pintar(zona){
-  const lista = propiedades.filter(p => zona === 'todas' || p.zona === zona);
-  fichasEl.innerHTML = lista.map((p,i) => `
+/* ================= ESTADO DE FILTROS (zona + interés + tipo) ================= */
+const filtros = { zona:'todas', interes:new Set(), tipo:new Set() };
+
+function propiedadesFiltradas(){
+  return propiedades.filter(p =>
+    (filtros.zona === 'todas' || p.zona === filtros.zona) &&
+    (filtros.interes.size === 0 || filtros.interes.has(p.interes)) &&
+    (filtros.tipo.size === 0 || filtros.tipo.has(p.tipo))
+  );
+}
+
+function actualizarContadores(){
+  document.querySelectorAll('#tabs .tab').forEach(t => {
+    const n = t.dataset.zona === 'todas' ? propiedades.length : propiedades.filter(p => p.zona === t.dataset.zona).length;
+    t.textContent = `${t.dataset.etq} (${n})`;
+  });
+  document.querySelectorAll('.filtro-chips .chip').forEach(c => {
+    const campo = c.closest('.filtro-chips').dataset.campo;
+    const n = propiedades.filter(p => p[campo] === c.dataset.valor).length;
+    c.querySelector('b').textContent = `(${n})`;
+    c.disabled = n === 0;
+  });
+}
+
+function pintar(){
+  const lista = propiedadesFiltradas();
+  fichasEl.innerHTML = lista.length ? lista.map((p,i) => `
     <article class="ficha ${i<TOPE ? 'rvl d'+i : 'ficha-extra'}" data-idx="${propiedades.indexOf(p)}">
       <div class="ficha-foto" title="Ver fotos">
         ${p.fotos.map((f,j)=>`<img src="${f}" alt="${p.titulo} — ${p.lugar}" class="${j===0?'activa':''}" loading="lazy">`).join('')}
         <span class="exp">REF. ${p.ref}</span>
-        <span class="badge-estado">VENTA</span>
+        <span class="badge-estado">${p.interes.toUpperCase()}</span>
         <div class="puntos">${p.fotos.map((_,j)=>`<span class="${j===0?'activa':''}"></span>`).join('')}</div>
       </div>
       <div class="ficha-cuerpo">
@@ -911,7 +992,7 @@ function pintar(zona){
           <a class="btn btn-borde" href="${p.url}" target="_blank" rel="noopener">Ficha</a>
         </div>
       </div>
-    </article>`).join('');
+    </article>`).join('') : `<p class="sub" style="grid-column:1/-1;text-align:center">No hay propiedades con estos filtros ahora mismo — pero seguro que podemos ayudarte igual. <a href="https://wa.me/${WHATSAPP}" target="_blank" rel="noopener">Escríbenos</a>.</p>`;
   const extras = lista.length - TOPE;
   if (extras > 0) {
     verMasCaja.innerHTML = `<button class="btn-vermas" id="btnVerMas">Ver <span class="cont">+${extras}</span> propiedad${extras>1?'es':''} más <b class="flecha">↓</b></button>`;
@@ -943,7 +1024,18 @@ document.getElementById('tabs').addEventListener('click', e => {
   const tab = e.target.closest('.tab'); if(!tab) return;
   document.querySelectorAll('#tabs .tab').forEach(t=>t.classList.remove('activa'));
   tab.classList.add('activa');
-  pintar(tab.dataset.zona);
+  filtros.zona = tab.dataset.zona;
+  pintar();
+});
+
+document.querySelectorAll('.filtro-chips').forEach(grupo => {
+  grupo.addEventListener('click', e => {
+    const chip = e.target.closest('.chip'); if(!chip || chip.disabled) return;
+    const set = filtros[grupo.dataset.campo];
+    chip.classList.toggle('activa');
+    set.has(chip.dataset.valor) ? set.delete(chip.dataset.valor) : set.add(chip.dataset.valor);
+    pintar();
+  });
 });
 
 /* ================= LIGHTBOX ================= */
@@ -1020,13 +1112,29 @@ const obsNums = new IntersectionObserver(entradas => {
 }, {threshold:.5});
 document.querySelectorAll('.num, .nota').forEach(el => obsNums.observe(el));
 
+/* ================= CHIPS DEL FORMULARIO (tipo de propiedad + canal preferido) ================= */
+document.getElementById('cTipoProp').addEventListener('click', e => {
+  const chip = e.target.closest('.chip'); if(!chip) return;
+  chip.classList.toggle('activa');
+});
+document.getElementById('cCanal').addEventListener('click', e => {
+  const chip = e.target.closest('.chip'); if(!chip) return;
+  document.querySelectorAll('#cCanal .chip').forEach(c => c.classList.remove('activa'));
+  chip.classList.add('activa');
+});
+
 /* ================= FORMULARIOS → WHATSAPP / MAILTO ================= */
 document.getElementById('formContacto').addEventListener('submit', e => {
   e.preventDefault();
   const nombre = document.getElementById('cNombre').value.trim();
   const tipo = document.getElementById('cTipo').value;
   const msj = document.getElementById('cMsj').value.trim();
-  const texto = `Hola! Soy ${nombre}. ${tipo}. ${msj}`;
+  const tiposProp = [...document.querySelectorAll('#cTipoProp .chip.activa')].map(c => c.dataset.valor);
+  const canal = document.querySelector('#cCanal .chip.activa')?.dataset.valor || 'WhatsApp';
+  let texto = `Hola! Soy ${nombre}. ${tipo}.`;
+  if (tiposProp.length) texto += ` Tipo de propiedad: ${tiposProp.join(', ')}.`;
+  texto += ` Prefiero que me contactéis por: ${canal}.`;
+  if (msj) texto += ` ${msj}`;
   window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(texto)}`, '_blank');
 });
 document.getElementById('formNews').addEventListener('submit', e => {
@@ -1085,7 +1193,8 @@ if (matchMedia('(hover:hover)').matches) {
 
 document.getElementById('anio').textContent = new Date().getFullYear();
 
-pintar('todas');
+actualizarContadores();
+pintar();
 observarReveals();
 </script>
 </body>
