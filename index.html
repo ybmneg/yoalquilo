@@ -7,7 +7,7 @@
 <meta name="description" content="YOALQUILO, la inmobiliaria de Fuerteventura que te ayuda a alquilar con seguridad, vender al mejor precio y olvidarte de los líos. ¡Así de fácil!">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
 <style>
 :root{
   --verde:#65b430;
@@ -25,6 +25,8 @@
   --glass:rgba(255,255,255,.62);
   --glass-borde:rgba(255,255,255,.7);
   --lustre:inset 0 1px 0 rgba(255,255,255,.65);
+  --display:'Fraunces',ui-serif,Georgia,serif;
+  --tinta:#0e130a;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -40,7 +42,7 @@ a{color:var(--verde-osc)}
 .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
 section{padding:64px 0;position:relative}
 .kicker{display:inline-block;background:rgba(101,180,48,.14);color:var(--verde-osc);font-weight:700;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;padding:6px 16px;border-radius:999px;margin-bottom:14px}
-.titulo{font-size:clamp(1.7rem,4vw,2.5rem);font-weight:800;line-height:1.15;margin-bottom:12px}
+.titulo{font-family:var(--display);font-size:clamp(1.8rem,4vw,2.7rem);font-weight:600;line-height:1.12;letter-spacing:-.01em;margin-bottom:12px}
 .titulo em{font-style:normal;color:var(--verde);background:linear-gradient(115deg,var(--verde) 8%,#8fd44f 92%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .sub{color:var(--ink-suave);max-width:600px;margin-bottom:34px}
 
@@ -85,9 +87,8 @@ header{position:sticky;top:0;z-index:90;background:rgba(247,250,242,.72);backdro
 header.pegado{box-shadow:var(--sombra-suave);background:rgba(247,250,242,.82)}
 .nav{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 20px;max-width:1120px;margin:0 auto}
 .logo-link{display:flex;align-items:center;flex-shrink:0}
-.logo-img{height:44px;width:auto;transition:transform .3s ease;animation:latido 6s ease-in-out infinite}
+.logo-img{height:44px;width:auto;transition:transform .3s ease}
 .logo-link:hover .logo-img{transform:scale(1.06) rotate(-1.5deg)}
-@keyframes latido{0%,88%,100%{transform:scale(1)}91%{transform:scale(1.05)}94%{transform:scale(1)}97%{transform:scale(1.04)}}
 .nav-links{display:none;gap:6px;list-style:none;align-items:center}
 .nav-links>li{position:relative}
 .nav-links a{display:block;text-decoration:none;color:var(--ink);font-weight:600;font-size:.92rem;padding:8px 13px;border-radius:999px;transition:background .15s,color .15s}
@@ -112,7 +113,7 @@ header.pegado{box-shadow:var(--sombra-suave);background:rgba(247,250,242,.82)}
 @keyframes flotar{from{transform:translateY(0) scale(1)}to{transform:translateY(30px) scale(1.08)}}
 .hero-grid{display:grid;gap:44px;align-items:center;position:relative;z-index:1}
 @media(min-width:920px){.hero-grid{grid-template-columns:1.05fr .95fr}}
-.hero h1{font-size:clamp(2rem,5vw,3.1rem);font-weight:900;line-height:1.12;margin-bottom:18px}
+.hero h1{font-family:var(--display);font-size:clamp(2.1rem,5vw,3.4rem);font-weight:600;line-height:1.08;letter-spacing:-.015em;margin-bottom:18px}
 .hero h1 .verde{color:var(--verde);background:linear-gradient(115deg,var(--verde) 8%,#8fd44f 92%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .tecleado{color:var(--verde-osc);border-right:3px solid var(--verde);padding-right:4px;white-space:nowrap}
 .hero p.lema{font-size:1.08rem;color:var(--ink-suave);margin-bottom:30px;max-width:480px}
@@ -126,8 +127,8 @@ header.pegado{box-shadow:var(--sombra-suave);background:rgba(247,250,242,.82)}
   filter:blur(2px);opacity:.9}
 .video-logo{position:relative;z-index:1;width:100%;border-radius:var(--radio);display:block;background:#65b430;
   box-shadow:var(--sombra),inset 0 0 0 1px rgba(255,255,255,.5)}
-.mascota-flotante{position:absolute;width:120px;bottom:-26px;left:-18px;animation:mascota-salta 3.2s ease-in-out infinite;filter:drop-shadow(0 10px 16px rgba(34,43,26,.25));z-index:2}
-@keyframes mascota-salta{0%,100%{transform:translateY(0) rotate(-3deg)}12%{transform:translateY(-16px) rotate(2deg)}24%{transform:translateY(0) rotate(-3deg)}}
+.mascota-flotante{position:absolute;width:120px;bottom:-26px;left:-18px;animation:mascota-idle 5s ease-in-out infinite;filter:drop-shadow(0 10px 16px rgba(34,43,26,.25));z-index:2}
+@keyframes mascota-idle{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-7px) rotate(1deg)}}
 .burbuja{position:absolute;top:-18px;right:-8px;background:#fff;border-radius:16px 16px 16px 4px;box-shadow:var(--sombra);padding:10px 16px;font-weight:700;font-size:.85rem;color:var(--verde-osc);animation:burbuja-pop .6s cubic-bezier(.34,1.56,.64,1) 1.2s backwards, burbuja-flota 4s ease-in-out 2s infinite;z-index:2}
 @keyframes burbuja-pop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
 @keyframes burbuja-flota{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
@@ -136,8 +137,8 @@ header.pegado{box-shadow:var(--sombra-suave);background:rgba(247,250,242,.82)}
 .cuidamela{background:linear-gradient(135deg,var(--verde-noche),#2f5216);color:#fff;border-radius:0}
 .cuida-grid{display:grid;gap:36px;align-items:center}
 @media(min-width:860px){.cuida-grid{grid-template-columns:.9fr 1.1fr}}
-.cuida-grid img{width:min(300px,70%);margin:0 auto;animation:balanceo 4s ease-in-out infinite;filter:drop-shadow(0 14px 22px rgba(0,0,0,.35))}
-@keyframes balanceo{0%,100%{transform:rotate(-3deg) translateY(0)}50%{transform:rotate(3deg) translateY(-10px)}}
+.cuida-grid img{width:min(300px,70%);margin:0 auto;animation:balanceo 6s ease-in-out infinite;filter:drop-shadow(0 14px 22px rgba(0,0,0,.35))}
+@keyframes balanceo{0%,100%{transform:rotate(-1.5deg) translateY(0)}50%{transform:rotate(1.5deg) translateY(-6px)}}
 .cuidamela .kicker{background:rgba(255,255,255,.14);color:var(--lima)}
 .cuidamela .titulo{color:#fff}
 .cuidamela .sub{color:rgba(255,255,255,.78)}
@@ -161,23 +162,23 @@ header.pegado{box-shadow:var(--sombra-suave);background:rgba(247,250,242,.82)}
 .servicio a.mas:hover{text-decoration:underline}
 
 /* ===== Por qué YOALQUILO (contadores) ===== */
-.porque{background:linear-gradient(150deg,#579f27 0%,var(--verde) 46%,#79ca40 100%);color:#fff;overflow:hidden}
-.porque::before{content:"";position:absolute;width:520px;height:520px;border-radius:50%;background:rgba(255,255,255,.10);top:-260px;right:-160px;animation:orbe 15s ease-in-out infinite alternate}
-.porque::after{content:"";position:absolute;width:380px;height:380px;border-radius:50%;background:rgba(30,51,17,.13);bottom:-210px;left:-130px;animation:orbe 18s ease-in-out infinite alternate-reverse}
+.porque{background:radial-gradient(1200px 600px at 85% -10%,rgba(101,180,48,.16),transparent),linear-gradient(160deg,#0e150a 0%,#141f0c 55%,#0e150a 100%);color:#fff;overflow:hidden}
+.porque::before{content:"";position:absolute;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(165,224,107,.16),transparent 70%);top:-260px;right:-160px;animation:orbe 15s ease-in-out infinite alternate}
+.porque::after{content:"";position:absolute;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle,rgba(101,180,48,.12),transparent 70%);bottom:-210px;left:-130px;animation:orbe 18s ease-in-out infinite alternate-reverse}
 @keyframes orbe{from{transform:translate(0,0) scale(1)}to{transform:translate(34px,22px) scale(1.14)}}
-.porque .kicker{background:rgba(255,255,255,.18);color:#fff}
+.porque .kicker{background:rgba(165,224,107,.14);color:var(--lima)}
 .porque .titulo,.porque .sub{color:#fff}
-.porque .sub{color:rgba(255,255,255,.85)}
+.porque .sub{color:rgba(255,255,255,.65)}
 .stats{display:grid;gap:18px;grid-template-columns:repeat(2,1fr);position:relative;z-index:1}
 @media(min-width:860px){.stats{grid-template-columns:repeat(4,1fr)}}
-.stat{position:relative;overflow:hidden;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.30);border-radius:var(--radio);padding:30px 18px 26px;text-align:center;backdrop-filter:blur(7px);box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 12px 26px rgba(20,40,10,.16);transition:transform .3s cubic-bezier(.22,.9,.35,1),background .3s ease,box-shadow .3s ease}
-.stat:hover{transform:translateY(-8px) scale(1.02);background:rgba(255,255,255,.24);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 20px 40px rgba(20,40,10,.24)}
-.stat::before{content:"";position:absolute;top:0;left:-70%;width:55%;height:100%;z-index:0;background:linear-gradient(105deg,transparent,rgba(255,255,255,.28),transparent);transform:skewX(-20deg);animation:brillo-stat 5.5s ease-in-out infinite}
-.stat:nth-child(2)::before{animation-delay:.7s}.stat:nth-child(3)::before{animation-delay:1.4s}.stat:nth-child(4)::before{animation-delay:2.1s}
-@keyframes brillo-stat{0%,72%{left:-70%}88%{left:130%}100%{left:130%}}
-.stat .ico-stat{position:relative;z-index:1;font-size:1.6rem;display:block;margin-bottom:8px;filter:drop-shadow(0 3px 5px rgba(0,0,0,.22))}
-.stat .num{position:relative;z-index:1;font-size:2.6rem;font-weight:900;line-height:1;text-shadow:0 2px 12px rgba(0,0,0,.16)}
-.stat .etq{position:relative;z-index:1;font-weight:600;font-size:.86rem;margin-top:8px;opacity:.95}
+.stat{position:relative;overflow:hidden;background:rgba(255,255,255,.05);border:1px solid rgba(165,224,107,.22);border-radius:var(--radio);padding:30px 18px 26px;text-align:center;backdrop-filter:blur(7px);box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 12px 26px rgba(0,0,0,.3);transition:transform .3s cubic-bezier(.22,.9,.35,1),background .3s ease,box-shadow .3s ease,border-color .3s ease}
+.stat:hover{transform:translateY(-8px) scale(1.02);background:rgba(255,255,255,.09);border-color:rgba(165,224,107,.5);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 20px 40px rgba(0,0,0,.4)}
+.stat::before{content:"";position:absolute;top:0;left:-70%;width:55%;height:100%;z-index:0;background:linear-gradient(105deg,transparent,rgba(165,224,107,.16),transparent);transform:skewX(-20deg)}
+.stat.rvl.visto::before{animation:brillo-stat 1.3s ease-out .3s 1}
+@keyframes brillo-stat{0%{left:-70%}100%{left:130%}}
+.stat .ico-stat{position:relative;z-index:1;width:1.7rem;height:1.7rem;display:block;margin:0 auto 10px;color:var(--lima)}
+.stat .num{position:relative;z-index:1;font-family:var(--display);font-size:2.6rem;font-weight:600;line-height:1}
+.stat .etq{position:relative;z-index:1;font-weight:500;font-size:.86rem;margin-top:8px;color:rgba(255,255,255,.7)}
 
 /* ===== Propiedades ===== */
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:30px}
@@ -199,8 +200,7 @@ header.pegado{box-shadow:var(--sombra-suave);background:rgba(247,250,242,.82)}
 .ficha.revelada{animation:sube-ficha .6s cubic-bezier(.22,.9,.35,1) both}
 @keyframes sube-ficha{from{opacity:0;transform:translateY(34px) scale(.97)}to{opacity:1;transform:none}}
 .ver-mas-caja{text-align:center;margin-top:34px;min-height:1px}
-.btn-vermas{display:inline-flex;align-items:center;gap:11px;font-family:inherit;font-weight:700;font-size:1rem;cursor:pointer;color:var(--verde-osc);background:var(--glass);backdrop-filter:blur(10px) saturate(1.3);-webkit-backdrop-filter:blur(10px) saturate(1.3);border:1.5px solid var(--verde);padding:14px 30px;border-radius:999px;box-shadow:var(--sombra-suave),var(--lustre);transition:transform .25s ease,background .25s ease,color .25s ease,border-color .25s ease;animation:vermas-pulso 2.6s ease-in-out infinite}
-@keyframes vermas-pulso{0%,100%{box-shadow:var(--sombra-suave),var(--lustre),0 0 0 0 rgba(101,180,48,.4)}55%{box-shadow:var(--sombra-suave),var(--lustre),0 0 0 10px rgba(101,180,48,0)}}
+.btn-vermas{display:inline-flex;align-items:center;gap:11px;font-family:inherit;font-weight:700;font-size:1rem;cursor:pointer;color:var(--verde-osc);background:var(--glass);backdrop-filter:blur(10px) saturate(1.3);-webkit-backdrop-filter:blur(10px) saturate(1.3);border:1.5px solid var(--verde);padding:14px 30px;border-radius:999px;box-shadow:var(--sombra-suave),var(--lustre);transition:transform .25s ease,background .25s ease,color .25s ease,border-color .25s ease,box-shadow .25s ease}
 .btn-vermas:hover{transform:translateY(-3px);background:linear-gradient(135deg,#74c43c,var(--verde-osc));color:#fff;border-color:transparent;animation:none;box-shadow:var(--sombra)}
 .btn-vermas .cont{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;padding:0 7px;border-radius:999px;background:var(--verde);color:#fff;font-size:.82rem;font-weight:800;transition:background .25s ease,color .25s ease}
 .btn-vermas:hover .cont{background:#fff;color:var(--verde-osc)}
@@ -211,7 +211,7 @@ header.pegado{box-shadow:var(--sombra-suave);background:rgba(247,250,242,.82)}
 .ficha{background:var(--glass);backdrop-filter:blur(14px) saturate(1.3);-webkit-backdrop-filter:blur(14px) saturate(1.3);border:1px solid var(--glass-borde);border-radius:var(--radio);overflow:hidden;box-shadow:var(--sombra-suave),var(--lustre);display:flex;flex-direction:column;transition:transform .3s cubic-bezier(.22,.9,.35,1),box-shadow .3s ease}
 .ficha:hover{transform:translateY(-8px);box-shadow:var(--sombra),var(--lustre),0 0 0 1px rgba(101,180,48,.25)}
 .ficha-foto{height:190px;position:relative;overflow:hidden;cursor:pointer}
-.ficha-foto img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;opacity:0;transition:opacity .5s ease,transform .6s ease}
+.ficha-foto img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;opacity:0;filter:saturate(1.08) contrast(1.04);transition:opacity .5s ease,transform .6s ease}
 .ficha-foto img.activa{opacity:1}
 .ficha:hover .ficha-foto img.activa{transform:scale(1.07)}
 .exp{position:absolute;top:12px;left:12px;background:var(--ink);color:#fff;font-size:.72rem;font-weight:700;padding:5px 12px;border-radius:999px;letter-spacing:.06em;z-index:2}
@@ -312,12 +312,14 @@ header.pegado{box-shadow:var(--sombra-suave);background:rgba(247,250,242,.82)}
 .chip-campo{display:flex;flex-wrap:wrap;gap:8px}
 .datos .dato{display:flex;gap:14px;align-items:center;margin-bottom:12px;padding:13px 16px;border-radius:16px;background:var(--glass);backdrop-filter:blur(12px) saturate(1.2);-webkit-backdrop-filter:blur(12px) saturate(1.2);border:1px solid var(--glass-borde);box-shadow:var(--sombra-suave),var(--lustre);transition:transform .28s cubic-bezier(.22,.9,.35,1),box-shadow .28s ease}
 .datos .dato:hover{transform:translateX(6px);box-shadow:var(--sombra),0 0 0 1px rgba(101,180,48,.22)}
-.datos .ico{flex:0 0 46px;height:46px;border-radius:14px;background:linear-gradient(135deg,rgba(101,180,48,.2),rgba(165,224,107,.32));display:flex;align-items:center;justify-content:center;font-size:1.3rem;box-shadow:inset 0 1px 0 rgba(255,255,255,.55)}
+.datos .ico{flex:0 0 46px;height:46px;border-radius:14px;background:linear-gradient(135deg,rgba(101,180,48,.2),rgba(165,224,107,.32));display:flex;align-items:center;justify-content:center;color:var(--verde-osc);box-shadow:inset 0 1px 0 rgba(255,255,255,.55)}
+.datos .ico svg{width:21px;height:21px}
 .datos b{display:block;font-size:.95rem}
 .datos a{font-weight:600;text-decoration:none}
 .datos a:hover{text-decoration:underline}
 .redes-sociales{display:flex;gap:10px;margin:2px 0 14px}
-.redes-sociales a{width:42px;height:42px;border-radius:50%;background:var(--glass);backdrop-filter:blur(10px);border:1px solid var(--glass-borde);display:flex;align-items:center;justify-content:center;font-size:1.15rem;box-shadow:var(--sombra-suave),var(--lustre);transition:transform .2s ease,box-shadow .2s ease}
+.redes-sociales a{width:42px;height:42px;border-radius:50%;background:var(--glass);backdrop-filter:blur(10px);border:1px solid var(--glass-borde);display:flex;align-items:center;justify-content:center;color:var(--verde-osc);box-shadow:var(--sombra-suave),var(--lustre);transition:transform .2s ease,box-shadow .2s ease}
+.redes-sociales a svg{width:19px;height:19px}
 .redes-sociales a:hover{transform:translateY(-3px) scale(1.06);box-shadow:var(--sombra)}
 .mapa-zona{position:relative;margin-top:8px;min-height:330px;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .mapa-caja{position:absolute;inset:0;border-radius:var(--radio);overflow:hidden;box-shadow:var(--sombra);opacity:0;visibility:hidden;pointer-events:none}
@@ -388,7 +390,7 @@ header.pegado{box-shadow:var(--sombra-suave);background:rgba(247,250,242,.82)}
 /* ===== Newsletter ===== */
 .news{background:linear-gradient(135deg,var(--verde-osc),var(--verde));color:#fff;text-align:center;border-radius:var(--radio);padding:44px 26px;position:relative;overflow:hidden}
 .news::before{content:"";position:absolute;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,.1);top:-150px;left:-80px}
-.news h2{font-size:1.6rem;font-weight:800;margin-bottom:8px}
+.news h2{font-family:var(--display);font-size:1.7rem;font-weight:600;margin-bottom:8px}
 .news p{opacity:.9;margin-bottom:22px}
 .news form{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:480px;margin:0 auto}
 .news input{flex:1;min-width:220px;padding:14px 18px;border-radius:999px;border:none;font-family:inherit;font-size:.95rem}
@@ -413,7 +415,8 @@ footer a:hover{color:var(--lima)}
 .flotantes{position:fixed;right:18px;bottom:18px;z-index:95;display:flex;flex-direction:column;gap:12px;align-items:flex-end}
 .wa-flotante{width:56px;height:56px;border-radius:50%;background:var(--wa);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.6rem;text-decoration:none;box-shadow:0 8px 22px rgba(0,0,0,.28);transition:transform .18s ease}
 .wa-flotante:hover{transform:scale(1.1)}
-.alqui-btn{width:64px;height:64px;border-radius:50%;background:#fff;border:3px solid var(--verde);cursor:pointer;box-shadow:0 8px 22px rgba(0,0,0,.28);padding:6px;transition:transform .18s ease;animation:alqui-llama 5s ease-in-out infinite}
+.alqui-btn{width:64px;height:64px;border-radius:50%;background:#fff;border:3px solid var(--verde);cursor:pointer;box-shadow:0 8px 22px rgba(0,0,0,.28);padding:6px;transition:transform .18s ease}
+.alqui-btn.saluda{animation:alqui-llama 1.4s ease-in-out}
 .alqui-btn:hover{transform:scale(1.1)}
 .alqui-btn img{width:100%;height:100%;object-fit:contain}
 @keyframes alqui-llama{0%,86%,100%{transform:rotate(0)}89%{transform:rotate(-8deg)}92%{transform:rotate(8deg)}95%{transform:rotate(-5deg)}98%{transform:rotate(0)}}
@@ -441,6 +444,25 @@ footer a:hover{color:var(--lima)}
 </head>
 <body>
 
+<svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
+<defs>
+<symbol id="ico-pin" viewBox="0 0 24 24"><path d="M12 21s-7-6.5-7-11a7 7 0 1 1 14 0c0 4.5-7 11-7 11z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.4" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
+<symbol id="ico-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 7.5V12l3.2 1.9" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+<symbol id="ico-phone" viewBox="0 0 24 24"><path d="M7 3.5H4.6c-.6 0-1 .5-.9 1.1.5 4 2.3 7.6 5 10.3 2.7 2.7 6.3 4.5 10.3 5 .6.1 1.1-.4 1.1-.9V17c0-.5-.4-1-1-1.1-1.3-.2-2.5-.5-3.6-1-.4-.2-.9-.1-1.2.2l-1.6 1.6c-2.4-1.3-4.4-3.3-5.7-5.7l1.6-1.6c.3-.3.4-.8.2-1.2-.5-1.1-.8-2.3-1-3.6C7.9 3.9 7.5 3.5 7 3.5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+<symbol id="ico-mail" viewBox="0 0 24 24"><rect x="3.2" y="5.5" width="17.6" height="13" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4.5 7l7.5 5.6L19.5 7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="ico-chat" viewBox="0 0 24 24"><path d="M20.5 11.4a8.3 8.3 0 0 1-12 7.4L4 20l1.3-4.2a8.3 8.3 0 1 1 15.2-4.4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+<symbol id="ico-house" viewBox="0 0 24 24"><path d="M4 11.5 12 4l8 7.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 10v9.5h12V10" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M10 19.5v-5.5h4v5.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+<symbol id="ico-key" viewBox="0 0 24 24"><circle cx="8" cy="15.5" r="3.8" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M10.7 12.8 19 4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M15.3 8.2l2.6 2.6M13.1 10.4l2 2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+<symbol id="ico-star" viewBox="0 0 24 24"><path d="M12 2.8 14.7 9l6.5.6-5 4.3 1.6 6.4L12 16.9 6.2 20.3l1.6-6.4-5-4.3L9.3 9z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+<symbol id="ico-heart" viewBox="0 0 24 24"><path d="M12 20.2S3.6 15 3.6 9.1C3.6 6.3 5.7 4 8.4 4c1.6 0 3 .8 3.6 2 .6-1.2 2-2 3.6-2 2.7 0 4.8 2.3 4.8 5.1 0 5.9-8.4 11.1-8.4 11.1z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+<symbol id="ico-shield" viewBox="0 0 24 24"><path d="M12 3.2 19 6v5.4c0 4.6-3 7.8-7 8.9-4-1.1-7-4.3-7-8.9V6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8.8 12.2 11 14.4l4.2-4.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="ico-euro" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M14.6 8.3a4 4 0 1 0 0 7.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M7.3 10.8h5.6M7.3 13h5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+<symbol id="ico-instagram" viewBox="0 0 24 24"><rect x="3.3" y="3.3" width="17.4" height="17.4" rx="5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor"/></symbol>
+<symbol id="ico-facebook" viewBox="0 0 24 24"><path d="M14.5 21v-7.6h2.6l.4-3H14.5V8.4c0-.9.2-1.5 1.5-1.5h1.6V4.2C17.3 4.1 16.3 4 15.2 4c-2.4 0-4 1.5-4 4.1v2.3H8.6v3h2.6V21z" fill="currentColor"/></symbol>
+<symbol id="ico-radio" viewBox="0 0 24 24"><circle cx="12" cy="14.5" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7.8 10.7A6 6 0 0 1 12 9a6 6 0 0 1 4.2 1.7M5.3 8.2A9.4 9.4 0 0 1 12 5.4a9.4 9.4 0 0 1 6.7 2.8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+</defs>
+</svg>
+
 <div class="progreso" id="progreso"></div>
 
 <!-- ============ HEADER ============ -->
@@ -465,7 +487,7 @@ footer a:hover{color:var(--lima)}
       <li><a href="#recursos">Recursos</a></li>
       <li><a href="#contacto">Contacto</a></li>
       <li><a href="reserva-visitas.html">Reservar visita</a></li>
-      <li><a class="btn btn-verde" style="padding:10px 20px;font-size:.88rem" href="https://wa.me/34666531888" target="_blank" rel="noopener">💬 Hablamos</a></li>
+      <li><a class="btn btn-verde" style="padding:10px 20px;font-size:.88rem" href="https://wa.me/34666531888" target="_blank" rel="noopener"><svg width="16" height="16"><use href="#ico-chat"/></svg> Hablamos</a></li>
     </ul>
     <button class="hamburguesa" id="btnMenu" aria-label="Abrir menú">☰</button>
   </nav>
@@ -494,13 +516,13 @@ footer a:hover{color:var(--lima)}
       <h1>Alquilar o vender en Fuerteventura <span class="verde">nunca fue tan fácil.</span></h1>
       <p class="lema">Somos la inmobiliaria que te ayuda a <strong class="tecleado" id="tecleado">alquilar con seguridad</strong><br>Tengas una casa o busques un hogar. ¡Así de fácil!</p>
       <div class="hero-ctas">
-        <a class="btn btn-verde" href="#propiedades">🏠 Busco mi nuevo hogar</a>
-        <a class="btn btn-borde" href="https://wa.me/34666531888?text=Hola!%20Quiero%20alquilar%20o%20vender%20mi%20propiedad%20con%20YOALQUILO." target="_blank" rel="noopener">🔑 Quiero alquilar o vender</a>
+        <a class="btn btn-verde" href="#propiedades"><svg width="18" height="18"><use href="#ico-house"/></svg> Busco mi nuevo hogar</a>
+        <a class="btn btn-borde" href="https://wa.me/34666531888?text=Hola!%20Quiero%20alquilar%20o%20vender%20mi%20propiedad%20con%20YOALQUILO." target="_blank" rel="noopener"><svg width="18" height="18"><use href="#ico-key"/></svg> Quiero alquilar o vender</a>
       </div>
       <div class="confianza">
         <span><span class="estrellas">★★★★★</span> 4,5 en Google</span>
-        <span>📻 HappyFM · Radio Insular</span>
-        <span>📍 Puerto del Rosario</span>
+        <span><svg width="16" height="16"><use href="#ico-radio"/></svg> HappyFM · Radio Insular</span>
+        <span><svg width="16" height="16"><use href="#ico-pin"/></svg> Puerto del Rosario</span>
       </div>
     </div>
     <div class="hero-media rvl d2">
@@ -574,10 +596,10 @@ footer a:hover{color:var(--lima)}
     <h2 class="titulo">Porque aquí no nos andamos con tonterías.</h2>
     <p class="sub">Gente de la isla, trabajando para gente de la isla. Con hechos, no con promesas.</p>
     <div class="stats">
-      <div class="stat rvl"><span class="ico-stat">🏝️</span><div class="num" data-meta="10" data-pre="+">0</div><div class="etq">Años de experiencia majorera</div></div>
-      <div class="stat rvl d1"><span class="ico-stat">🙌</span><div class="num" data-meta="0" data-post="€">0</div><div class="etq">Comisiones a inquilinos</div></div>
-      <div class="stat rvl d2"><span class="ico-stat">💚</span><div class="num" data-meta="1001">0</div><div class="etq">Razones para ser de YOALQUILO</div></div>
-      <div class="stat rvl d3"><span class="ico-stat">🤝</span><div class="num" data-meta="100" data-post="%">0</div><div class="etq">Compromiso con el vecino</div></div>
+      <div class="stat rvl"><svg class="ico-stat"><use href="#ico-star"/></svg><div class="num" data-meta="10" data-pre="+">0</div><div class="etq">Años de experiencia majorera</div></div>
+      <div class="stat rvl d1"><svg class="ico-stat"><use href="#ico-euro"/></svg><div class="num" data-meta="0" data-post="€">0</div><div class="etq">Comisiones a inquilinos</div></div>
+      <div class="stat rvl d2"><svg class="ico-stat"><use href="#ico-heart"/></svg><div class="num" data-meta="1001">0</div><div class="etq">Razones para ser de YOALQUILO</div></div>
+      <div class="stat rvl d3"><svg class="ico-stat"><use href="#ico-shield"/></svg><div class="num" data-meta="100" data-post="%">0</div><div class="etq">Compromiso con el vecino</div></div>
     </div>
   </div>
 </section>
@@ -766,15 +788,15 @@ footer a:hover{color:var(--lima)}
         <button type="submit" class="btn btn-wa">💬 Enviar por WhatsApp</button>
       </form>
       <div class="datos">
-        <div class="dato rvl"><span class="ico">📍</span><div><b>Oficina</b>C/ Ayose 1, 2ºC · Puerto del Rosario</div></div>
-        <div class="dato rvl d1"><span class="ico">🕘</span><div><b>Horario</b>Lunes a viernes, 09:00 – 15:00</div></div>
-        <div class="dato rvl d2"><span class="ico">📞</span><div><b>Teléfono</b><a href="tel:+34828130012">828 130 012</a></div></div>
-        <div class="dato rvl d3"><span class="ico">💬</span><div><b>WhatsApp</b><a href="https://wa.me/34666531888" target="_blank" rel="noopener">666 531 888</a></div></div>
-        <div class="dato rvl d4"><span class="ico">✉️</span><div><b>Email</b><a href="mailto:info@yoalquilo-online.com">info@yoalquilo-online.com</a></div></div>
+        <div class="dato rvl"><span class="ico"><svg><use href="#ico-pin"/></svg></span><div><b>Oficina</b>C/ Ayose 1, 2ºC · Puerto del Rosario</div></div>
+        <div class="dato rvl d1"><span class="ico"><svg><use href="#ico-clock"/></svg></span><div><b>Horario</b>Lunes a viernes, 09:00 – 15:00</div></div>
+        <div class="dato rvl d2"><span class="ico"><svg><use href="#ico-phone"/></svg></span><div><b>Teléfono</b><a href="tel:+34828130012">828 130 012</a></div></div>
+        <div class="dato rvl d3"><span class="ico"><svg><use href="#ico-chat"/></svg></span><div><b>WhatsApp</b><a href="https://wa.me/34666531888" target="_blank" rel="noopener">666 531 888</a></div></div>
+        <div class="dato rvl d4"><span class="ico"><svg><use href="#ico-mail"/></svg></span><div><b>Email</b><a href="mailto:info@yoalquilo-online.com">info@yoalquilo-online.com</a></div></div>
         <div class="redes-sociales rvl d4">
-          <a href="https://www.instagram.com/yoalquiloonline?igsh=MTVpaXVwN2t4eG9paA==" target="_blank" rel="noopener" aria-label="Instagram">📷</a>
-          <a href="https://www.facebook.com/share/1EBgm4VNYY/" target="_blank" rel="noopener" aria-label="Facebook">📘</a>
-          <a href="https://wa.me/34666531888" target="_blank" rel="noopener" aria-label="WhatsApp">💬</a>
+          <a href="https://www.instagram.com/yoalquiloonline?igsh=MTVpaXVwN2t4eG9paA==" target="_blank" rel="noopener" aria-label="Instagram"><svg><use href="#ico-instagram"/></svg></a>
+          <a href="https://www.facebook.com/share/1EBgm4VNYY/" target="_blank" rel="noopener" aria-label="Facebook"><svg><use href="#ico-facebook"/></svg></a>
+          <a href="https://wa.me/34666531888" target="_blank" rel="noopener" aria-label="WhatsApp"><svg><use href="#ico-chat"/></svg></a>
         </div>
         <div class="mapa-zona" id="mapaZona">
           <div class="globo-wrap" id="globoWrap" aria-hidden="true">
@@ -850,7 +872,7 @@ footer a:hover{color:var(--lima)}
 
 <!-- ============ FLOTANTES: ALQUI + WHATSAPP ============ -->
 <div class="flotantes">
-  <a class="wa-flotante" href="https://wa.me/34666531888" target="_blank" rel="noopener" aria-label="WhatsApp">💬</a>
+  <a class="wa-flotante" href="https://wa.me/34666531888" target="_blank" rel="noopener" aria-label="WhatsApp"><svg width="26" height="26"><use href="#ico-chat"/></svg></a>
   <button class="alqui-btn" id="alquiBtn" aria-label="Abrir chat con Alqui"><img src="assets/misc-4.png" alt="Alqui"></button>
 </div>
 <div class="alqui-panel" id="alquiPanel">
@@ -1146,8 +1168,10 @@ document.getElementById('formNews').addEventListener('submit', e => {
 /* ================= CHATBOT ALQUI ================= */
 const alquiBtn = document.getElementById('alquiBtn');
 const alquiPanel = document.getElementById('alquiPanel');
-alquiBtn.addEventListener('click', () => alquiPanel.classList.toggle('abierto'));
+alquiBtn.addEventListener('click', () => { alquiPanel.classList.toggle('abierto'); alquiBtn.classList.remove('saluda'); });
 alquiPanel.querySelectorAll('[data-cerrar-alqui]').forEach(a => a.addEventListener('click', () => alquiPanel.classList.remove('abierto')));
+setTimeout(() => alquiBtn.classList.add('saluda'), 3500);
+alquiBtn.addEventListener('animationend', () => alquiBtn.classList.remove('saluda'));
 
 /* ================= GLOBO 3D → MAPA SATÉLITE (al hacer scroll) ================= */
 const mapaZona = document.getElementById('mapaZona');
